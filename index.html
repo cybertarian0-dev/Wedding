@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Watch the latest video.">
+  <title>My Video Hub</title>
+  <style>
+    :root { color-scheme: dark; --bg:#0b1020; --panel:#151d32; --muted:#aab5cc; --accent:#60a5fa; }
+    * { box-sizing: border-box; }
+    body { margin:0; font-family: system-ui, Arial, sans-serif; background:linear-gradient(140deg,#0b1020,#17233d); color:#f8fafc; min-height:100vh; }
+    header { padding:30px 20px; text-align:center; }
+    header h1 { margin:0 0 8px; font-size:clamp(2rem,5vw,3rem); }
+    header p { margin:0; color:var(--muted); }
+    main { width:min(1000px, calc(100% - 32px)); margin:20px auto 60px; }
+    .card { background:rgba(21,29,50,.94); border:1px solid #2b3957; border-radius:18px; padding:clamp(16px,3vw,28px); box-shadow:0 18px 55px #0005; }
+    .player-wrap { aspect-ratio:16/9; background:#050914; border-radius:12px; overflow:hidden; display:grid; place-items:center; }
+    video, iframe { width:100%; height:100%; border:0; }
+    .placeholder { color:var(--muted); text-align:center; padding:20px; }
+    h2 { margin:22px 0 8px; }
+    #description { color:var(--muted); line-height:1.6; white-space:pre-wrap; }
+    footer { text-align:center; color:var(--muted); padding:0 16px 30px; font-size:.9rem; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1 id="site-title">My Video Hub</h1>
+    <p>Watch the video below</p>
+  </header>
+  <main>
+    <section class="card">
+      <div class="player-wrap" id="player-wrap">
+        <div class="placeholder">Your video will appear here.</div>
+      </div>
+      <h2 id="video-title">Featured video</h2>
+      <p id="description">Welcome! The video description will appear here.</p>
+    </section>
+  </main>
+  <footer>Video Hub · Hosted with GitHub Pages</footer>
+
+  <script>
+    /*
+      WEBSITE OWNER: edit the settings below whenever you want to change the video.
+      VIDEO_URL can be:
+      - a direct MP4/WebM video URL, OR
+      - a YouTube/Vimeo embed URL (for example https://www.youtube.com/embed/VIDEO_ID).
+      For long videos, host the video on a video/file hosting service rather than in this GitHub repository.
+    */
+    const SITE_TITLE = "My Video Hub";
+    const VIDEO_TITLE = "Featured video";
+    const VIDEO_DESCRIPTION = "Add a short description of your video here.";
+    const VIDEO_URL = "PASTE_YOUR_VIDEO_URL_HERE";
+
+    document.title = SITE_TITLE;
+    document.getElementById("site-title").textContent = SITE_TITLE;
+    document.getElementById("video-title").textContent = VIDEO_TITLE;
+    document.getElementById("description").textContent = VIDEO_DESCRIPTION;
+
+    const wrap = document.getElementById("player-wrap");
+    if (VIDEO_URL && VIDEO_URL !== "PASTE_YOUR_VIDEO_URL_HERE") {
+      if (/\.(mp4|webm|ogg)(\?.*)?$/i.test(VIDEO_URL)) {
+        const video = document.createElement("video");
+        video.src = VIDEO_URL;
+        video.controls = true;
+        video.playsInline = true;
+        video.preload = "metadata";
+        wrap.replaceChildren(video);
+      } else {
+        const frame = document.createElement("iframe");
+        frame.src = VIDEO_URL;
+        frame.title = VIDEO_TITLE;
+        frame.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
+        frame.allowFullscreen = true;
+        wrap.replaceChildren(frame);
+      }
+    }
+  </script>
+</body>
+</html>
